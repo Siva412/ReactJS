@@ -1,9 +1,21 @@
-.booking-cnt .bus-blk .bus-dtls .bus-layout div{
+.booking-cnt .bus-blk{
+    margin-bottom: 10px;
+}
+.booking-cnt .bus-blk .bus-dtls{
+    border: 1px solid #ccc;
+}
+.booking-cnt .bus-blk .bus-dtls > div{
+    padding: 20px 20px 20px 10px;
+}
+.booking-cnt .bus-blk .bus-dtls > div:first-child{
+    border-right: 1px solid #ccc;
+}
+.booking-cnt .bus-blk .bus-dtls .bus-layout div:first-child{
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
-.booking-cnt .bus-blk .bus-dtls .bus-layout div > span{
+.booking-cnt .bus-blk .bus-dtls .bus-layout div:first-child > span{
     display: inline-block;
     height: 80px;
     vertical-align: top;
@@ -24,4 +36,66 @@
 .selected{
     background-color: green;
     opacity: 0.3;
+
+}
+.booking-cnt .bus-blk .bus-lst div{
+    border: 1px solid #ccc;
+}
+.booking-cnt .bus-blk .bus-lst div span{
+    display: inline-block;
+    width: 100%;
+}
+.booking-cnt .bus-blk .bus-lst .sv-no{
+    font-size: 20px;
+    font-weight: bold;
+}
+.booking-cnt .bus-blk .bus-lst .bs-tm span:first-child{
+    font-size: 17px;
+}
+.booking-cnt .bus-blk .bus-lst .bs-tm span:nth-child(2){
+    font-size: 14px;
+    color: #847f7f;
+}
+.booking-cnt .bus-blk .layout-btn{
+    width: 90px;
+    font-size: 13px;
+    margin: auto;
+    border: 1px solid black;
+    padding: 2px;
+    text-align: center;
+    background-color: #3f51b5;
+    color: white;
+}
+.info-row{
+    margin-top: 30px;
+}
+.info-row > span{
+    display: inline-block;
+    width:30%;
+    margin-right: 5px;
+    font-size: 14px;
+}
+.info-row .iblk{
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+}
+.blk{
+    background-color: #ccc;
+}
+.wmn{
+    background-color: pink;
+}
+.bus-form div input{
+    margin:5px 5px 0px 5px;
+}
+.bus-form div span{
+    display: block;
+    font-size: 12px;
+    margin-left: 65px;
+}
+.bus-form div label{
+    font-size: 14px;
+    width: 60px;
+    margin-bottom: 0px;
 }

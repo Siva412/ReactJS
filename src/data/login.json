@@ -37,6 +37,33 @@
     },
     {
       "id": 3,
+      "type":"booking",
+      "busList":[{
+        "id":"1",
+        "svNo":"8525",
+        "route":"RGD - HJY",
+        "time":"04:30 - 06:30",
+        "duration":"6hrs",
+        "busType":"Volvo",
+        "via":"test",
+        "seats":50,
+        "window":2,
+        "price":500,
+        "seatList":[{"id":"1", "ctgry":"open"},{"id":"2", "ctgry":"wmn"},{"id":"3", "ctgry":"blk"},{"id":"4", "ctgry":"open"},{"id":"5", "ctgry":"open"},{"id":"6", "ctgry":"open"},{"id":"7", "ctgry":"open"},{"id":"8", "ctgry":"open"},{"id":"9", "ctgry":"open"},{"id":"10", "ctgry":"open"},{"id":"11", "ctgry":"open"},{"id":"12", "ctgry":"open"}]
+    },
+    {
+        "id":"1",
+        "svNo":"8525",
+        "route":"RGD - HJY",
+        "time":"04:30 - 06:30",
+        "duration":"6hrs",
+        "busType":"Volvo",
+        "via":"test",
+        "seats":50,
+        "window":2,
+        "price":500,
+        "seatList":[{"id":"1", "ctgry":"open"},{"id":"2", "ctgry":"open"},{"id":"3", "ctgry":"wmn"},{"id":"4", "ctgry":"blk"},{"id":"5", "ctgry":"open"},{"id":"6", "ctgry":"open"},{"id":"7", "ctgry":"open"},{"id":"8", "ctgry":"open"},{"id":"9", "ctgry":"open"},{"id":"10", "ctgry":"open"},{"id":"11", "ctgry":"open"},{"id":"12", "ctgry":"open"}]
+    }],
       "first_name": "Ann",
       "last_name": "Smith",
       "email": "ann@codingthesmartway.com"

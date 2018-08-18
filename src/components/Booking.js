@@ -31,11 +31,13 @@ class BusBooking extends React.Component{
         this.state = {
             formData:{},
             errorState:{},
-            locationFormFlag:true,
-            vehicleForm:false,
-            vehicleFormEdit:true,
-            contactFormFlag:false
+            busListFlag:false,
+            busLayoutNo:-1,
+            busList:[]
         }
+    }
+    changeBusLayout(i){
+        this.setState({busLayoutNo:i});
     }
     handleChange(e,field,form){
         let data = this.state.formData;
@@ -89,11 +91,21 @@ class BusBooking extends React.Component{
         return validFlag;
     }
     handleForms(form,type,flag){
-        let obj = {target:{id:"submit-btn"}};
+        fetch('http://localhost:3000/serverData?type=booking').then(res => {
+            return res.json();
+        }).then(res => {
+            var busList = res[0].busList;
+            let obj = {target:{id:"submit-btn"}};
             if(type ==="submit" && this.handleValidation(obj, type, form)){
-                this.setState({locationFormFlag:flag});
-                this.setState({vehicleForm:true});
+                this.setState({busLayoutNo:-1});
+                this.setState({busListFlag:true,busList:busList});
             }
+        })
+        // let obj = {target:{id:"submit-btn"}};
+        //     if(type ==="submit" && this.handleValidation(obj, type, form)){
+        //         this.setState({busLayoutNo:-1});
+        //         this.setState({busListFlag:true,busList:busList});
+        //     }
     }
     render(){
         return (
@@ -108,7 +120,7 @@ class BusBooking extends React.Component{
             </AppBar>
             <Paper elevation={5}>
             <div className="form-div">
-            {LocationForm(this.state, this.handleForms.bind(this), this.handleChange.bind(this))}
+            {LocationForm(this.state, this.handleForms.bind(this), this.handleChange.bind(this), this.changeBusLayout.bind(this))}
             </div>
             </Paper>
             </div>
@@ -117,7 +129,7 @@ class BusBooking extends React.Component{
     }
 }
 
-function LocationForm(props,hideFun,formFun){
+function LocationForm(props,hideFun,formFun,showLayout){
         return (
             <div className="booking-cnt">
             <form autoComplete="off" className="reg-form mg-btm6" noValidate>
@@ -148,8 +160,8 @@ function LocationForm(props,hideFun,formFun){
                             </div>
                         </div>
                     </form>
-                    <div className="reg-form">
-                        <BusBlock/>
+                    <div className="container reg-form">
+                        <BusBlock data={props} actions={showLayout}/>
                     </div>
             </div>
         )
@@ -157,54 +169,204 @@ function LocationForm(props,hideFun,formFun){
 class BusBlock extends React.Component{
     constructor(props){
         super(props);
+        this.state = {
+            busFormData:{},
+            errorState:{},
+            seatsNo: 0
+        }
+    }
+    handleFormChange(e){
+        let formData = this.state.busFormData;
+        formData[e.target.id] = e.target.value;
+        this.setState({busFormData : formData});
+        this.handleValidation(e);
+    }
+    handleValidation(e){
+        let errState = this.state.errorState;
+        let validFlag = true;
+        if(e.target.id == "name" || e.target.id == "submitBtn"){
+            errState.name='';
+            if(!e.target.value && !this.state.busFormData['name']){
+                errState.name = 'Please enter name';
+                validFlag = false;
+            }
+        }
+        if(e.target.id == "mobile" || e.target.id == "submitBtn"){
+            errState.mobile='';
+            if(!e.target.value && !this.state.busFormData['mobile']){
+                errState.mobile = 'Please enter mobile';
+                validFlag = false;
+            }
+        }
+        if(e.target.id == "email" || e.target.id == "submitBtn"){
+            errState.email='';
+            if(!e.target.value && !this.state.busFormData['email']){
+                errState.email = 'Please enter email';
+                validFlag = false;
+            }
+        }
+        this.setState({errorState:errState});
+        return validFlag;
+    }
+    handleSubmit(){
+        let obj = {target:{id:"submitBtn"}};
+        if(this.handleValidation(obj)){
+            alert("success");
+        }
     }
     handleSelect(i){
+        var num = this.state.seatsNo;
+        if($("#seat"+i).hasClass("wmn") || $("#seat"+i).hasClass("blk")){
+            return;
+        }
         if($("#seat"+i).hasClass("selected")){
+            if(num > 0){
+                num = num-1;
+                this.setState({seatsNo:num});
+            }
             $("#seat"+i).removeClass("selected");
         }
         else{
+            num = num+1;
+            this.setState({seatsNo:num});
             $("#seat"+i).addClass("selected");
         }
     }
+    showLayout(i){
+        //this.setState({busLayoutNo:i});
+        this.props.actions(i);
+    }
     render(){
-        var busSeats = [{"id":'1'},{"id":'2'},{"id":'3'},{"id":'4'},{"id":'5'},{"id":'6'},{"id":'7'},{"id":'8'},{"id":'9'},{"id":'10'},{"id":'11'},{"id":'12'}];
-        var renderSeats = busSeats.map((a,i) => {
-            return (<span key={i} className="bus-seats" id={"seat"+i} onClick={() => this.handleSelect(i)}></span>)
-        });
-        return(
-            <div className="bus-blk">
+        var busList = this.props.data.busList;
+        var busListUI=[];
+        busListUI = busList.map((a,i) => {
+            var busSeats = a.seatList;
+            var renderSeats = busSeats.map((b,i) => {
+                return (<span key={i} className={'bus-seats '+b.ctgry} id={"seat"+i} onClick={() => this.handleSelect(i)}></span>)
+            });
+            return(
+                <div className="bus-blk" key={i}>
                 <div className="row bus-lst">
-                <span>454544</span>
-                <span>454544</span>
-                <span>454544</span>
-                <span>454544</span>
-                <span>454544</span>
+                <div className="col-md-2">
+                <span className="sv-no text-center">{a.svNo}</span>
+                <span className="text-center">{a.route}</span>
                 </div>
+                <div className="col-md-2 bs-tm">
+                    <span>{a.time}</span>
+                    <span>Duration: {a.duration}</span>
+                </div>
+                <div className="col-md-4 bs-tm">
+                    <span>{a.busType}</span>
+                    <span>via {a.via}</span>
+                </div>
+                <div className="col-md-2 bs-tm">
+                    <span>{a.seats} seats</span>
+                    <span>Window {a.window}</span></div>
+                <div className="col-md-2">
+                    <span>Rs.{a.price}</span>
+                    <span className="layout-btn" onClick={() => this.showLayout(i)}>Show layout</span>
+                </div>
+                </div>
+                {
+                    this.props.data.busLayoutNo == i?
                 <div className="row bus-dtls">
                     <div className="col-md-4 bus-layout">
                     <div>
                         <span className="bus-frnt"></span>
                         <span className="bus-back">
-                            {/* <span className="bus-seats"></span>
-                            <span className="bus-seats"></span>
-                            <span className="bus-seats"></span>
-                            <span className="bus-seats"></span>
-                            <span className="bus-seats"></span>
-                            <span className="bus-seats"></span>
-                            <span className="bus-seats"></span>
-                            <span className="bus-seats"></span>
-                            <span className="bus-seats"></span>
-                            <span className="bus-seats"></span>
-                            <span className="bus-seats"></span>
-                            <span className="bus-seats"></span> */}
                             {renderSeats}
+                        </span>
+                    </div>
+                    <div className="info-row">
+                        <span>
+                            Selected <span className="iblk selected"></span>
+                        </span>
+                        <span>
+                            Blocked <span className="iblk blk"></span>
+                        </span>
+                        <span>
+                            Ladies <span className="iblk wmn"></span>
                         </span>
                     </div>
                     </div>
                     <div className="col-md-8">
+                        <div className="row">
+                        <div className="col-md-6">
+                        <form className="bus-form" autoComplete="off">
+                            <div>
+                                <label>Name:</label>
+                                <input id="name" type="text" onChange={(e) => {this.handleFormChange(e)}}/>
+                                <span className="form-err">{this.state.errorState.name}</span>
+                            </div>
+                            <div>
+                                <label>Mobile:</label>
+                                <input id="mobile" type="text" onChange={(e) => {this.handleFormChange(e)}}/>
+                                <span className="form-err">{this.state.errorState.mobile}</span>
+                            </div>
+                            <div>
+                                <label>Email Id:</label>
+                                <input id="email" type="text" onChange={(e) => {this.handleFormChange(e)}}/>
+                                <span className="form-err">{this.state.errorState.email}</span>
+                            </div>
+                        </form>
+                        </div>
+                        <div className="col-md-6">
+                            <div>No of Tickets: {this.state.seatsNo}</div>
+                            <div>Total price: {this.state.seatsNo * a.price}</div>
+                            <Button variant="contained" className="reg-btn" color="primary" onClick={()=>{this.handleSubmit()}}>Submit</Button>
+                        </div>
                     </div>
-                </div>
+                    </div>
+                </div>:null
+                }
             </div>
+            )
+        });
+        // var busSeats = busList[0].seatList;
+        // var renderSeats = busSeats.map((a,i) => {
+        //     return (<span key={i} className="bus-seats" id={"seat"+i} onClick={() => this.handleSelect(i)}></span>)
+        // });
+        
+        return(
+            
+            <div>
+            {this.props.data.busListFlag?busListUI:null}
+            </div>
+            // <div className="bus-blk">
+            //     <div className="row bus-lst">
+            //     <div className="col-md-2">
+            //     <span className="sv-no text-center">8526</span>
+            //     <span className="text-center">RGIA-YHU</span>
+            //     </div>
+            //     <div className="col-md-2 bs-tm">
+            //         <span>04:30 - 05:30</span>
+            //         <span>Duration: 4hrs</span>
+            //     </div>
+            //     <div className="col-md-4 bs-tm">
+            //         <span>Volvo sleeper</span>
+            //         <span>via abc</span>
+            //     </div>
+            //     <div className="col-md-2 bs-tm">
+            //         <span>40 seats</span>
+            //         <span>Window 2</span></div>
+            //     <div className="col-md-2">
+            //         <span>Rs.500</span>
+            //         <span></span>
+            //     </div>
+            //     </div>
+            //     <div className="row bus-dtls">
+            //         <div className="col-md-4 bus-layout">
+            //         <div>
+            //             <span className="bus-frnt"></span>
+            //             <span className="bus-back">
+            //                 {renderSeats}
+            //             </span>
+            //         </div>
+            //         </div>
+            //         <div className="col-md-8">
+            //         </div>
+            //     </div>
+            // </div>
         )
     }
 }
