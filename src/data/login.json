@@ -1,0 +1,59 @@
+{
+  "serverData": [
+    {
+      "id": 1,
+      "type": "login",
+      "userName": "admin",
+      "pwd": "admin",
+      "loginStatus": true
+    },
+    {
+      "id": 2,
+      "type": "historyData",
+      "userName": "admin",
+      "data": [
+        {
+          "refNo": "854545454",
+          "bkngDate": "02-07-2018",
+          "source": "Hyderabad",
+          "dest": "Delhi",
+          "status": "Confirmed"
+        },
+        {
+          "refNo": "563232323",
+          "bkngDate": "13-08-2018",
+          "source": "Hyderabad",
+          "dest": "Mumbai",
+          "status": "Rejected"
+        },
+        {
+          "refNo": "874525555",
+          "bkngDate": "06-08-2018",
+          "source": "Hyderabad",
+          "dest": "Goa",
+          "status": "Pending"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "first_name": "Ann",
+      "last_name": "Smith",
+      "email": "ann@codingthesmartway.com"
+    },
+    {
+      "type": "login",
+      "userName": "hello",
+      "pwd": "hello",
+      "loginStatus": true,
+      "id": 4
+    },
+    {
+      "type": "login",
+      "userName": "test",
+      "pwd": "test",
+      "loginStatus": true,
+      "id": 5
+    }
+  ]
+}
