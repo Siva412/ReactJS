@@ -313,10 +313,13 @@ class BusBlock extends React.Component{
                     </div>
                     <div className="info-row">
                         <span>
+                            Available <span className="iblk available"></span>
+                        </span>
+                        <span>
                             Selected <span className="iblk selected"></span>
                         </span>
                         <span>
-                            Blocked <span className="iblk blk"></span>
+                            Booked <span className="iblk blk"></span>
                         </span>
                         {/* <span>
                             Ladies <span className="iblk wmn"></span>
