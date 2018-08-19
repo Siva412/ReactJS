@@ -42,8 +42,6 @@ class History extends React.Component{
                             <div className="col-md-2">{a.source}</div>
                             <div className="col-md-2">{a.dest}</div>
                             <div className={"col-md-2 "+a.status}>{a.status}</div>
-                            <div className="col-sm-12">
-                            </div>
                             </div>
                             <div className="row tb-cell tb-mob">
                                 <div>

@@ -113,6 +113,9 @@
   .history-cnt .container .tb-cell .Rejected{
     color: red;
   }
+  .history-cnt .container .tb-cell .Booked{
+    color: blue;
+  }
   @media only screen and (max-width: 768px){
     .history-cnt .container .tb-mob{
       display: block;

@@ -96,11 +96,11 @@ class Register extends React.Component{
             }).then(res => res.json())
             .then(res=>{
                 this.props.Login(this.state.fields);
-                this.props.history.push('/home');
+                this.props.history.push('/booking');
             }).catch(err => {
                 
             });
-            //this.props.history.push('/home');
+            //this.props.history.push('/booking');
         }
 
     }

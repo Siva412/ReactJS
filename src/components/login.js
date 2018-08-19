@@ -26,14 +26,14 @@ class LoginForm extends React.Component{
         }
      }
      responseFacebook(response) {
-        if(response && response.status !== 'connected'){
+        if(response.status == 'unknown'){
             return;
         }
         this.props.Login({
             "name":response.name,
             "email":response.name+"@gmail.com"
         })
-        this.props.history.push("/home");
+        this.props.history.push("/booking");
         console.log(response);
       }
        responseGoogle (response){
@@ -41,7 +41,7 @@ class LoginForm extends React.Component{
             "name":response.w3.ig,
             "email":response.profileObj.email
         });
-        this.props.history.push("/home");
+        this.props.history.push("/booking");
         console.log("google console");
         console.log(response);        
     }
@@ -83,7 +83,7 @@ class LoginForm extends React.Component{
                     let loginData=loginArr[0];
                     if(this.state.fields.name === loginData.userName && this.state.fields.password === loginData.pwd && loginData.loginStatus){
                         this.props.Login(this.state.fields);
-                        this.props.history.push("/home");
+                        this.props.history.push("/booking");
                     }
                     else{
                         alert("please enter valid credentials");
@@ -97,7 +97,7 @@ class LoginForm extends React.Component{
             });
         //   if(this.state.fields.name === "admin" && this.state.fields.password === "admin"){
         //     this.props.Login(this.state.fields);
-        //     this.props.history.push("/home");
+        //     this.props.history.push("/booking");
           
         //   }else{
         //   alert("please enter valid credentials");

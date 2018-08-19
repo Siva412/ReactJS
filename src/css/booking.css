@@ -1,19 +1,21 @@
 .booking-cnt .bus-blk{
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+}
+.booking-cnt .reg-btn{
+    margin-top: 32px;
 }
 .booking-cnt .bus-blk .bus-dtls{
     border: 1px solid #ccc;
+    border-top: 0px;
 }
 .booking-cnt .bus-blk .bus-dtls > div{
     padding: 20px 20px 20px 10px;
-}
-.booking-cnt .bus-blk .bus-dtls > div:first-child{
-    border-right: 1px solid #ccc;
 }
 .booking-cnt .bus-blk .bus-dtls .bus-layout div:first-child{
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    width: 285px;
 }
 .booking-cnt .bus-blk .bus-dtls .bus-layout div:first-child > span{
     display: inline-block;
@@ -40,6 +42,10 @@
 }
 .booking-cnt .bus-blk .bus-lst div{
     border: 1px solid #ccc;
+    background-color: #f7f5f5;
+}
+.booking-cnt .bus-blk .bus-lst div:not(:first-child){
+    border-left: 0px;
 }
 .booking-cnt .bus-blk .bus-lst div span{
     display: inline-block;
@@ -98,4 +104,19 @@
     font-size: 14px;
     width: 60px;
     margin-bottom: 0px;
+}
+.car-steer{
+    display: inline-block;
+    height: 22px;
+    width: 22px;
+    margin: 4px;
+    background: url('../images/icon.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    transform: rotate(270deg);
+    opacity: 0.6;
 }

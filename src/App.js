@@ -5,6 +5,7 @@ import Register from './components/register';
 import Acknowledgement from './components/Acknowledgement';
 import History from './components/History';
 import BusBooking from './components/Booking';
+import BookingAck from './components/BookingAck';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import moment from 'moment';
 import './App.css';
@@ -32,7 +33,12 @@ class App extends Component {
   }
   handleBooking(data){
     let storageData = JSON.parse(localStorage.getItem("loginData")), parsedData = JSON.parse(data);
-    storageData.historyData.push({"refNo":"8655653335","bkngDate":moment(parsedData.frmDate).format('DD-MM-YYYY'),"source":parsedData.stp,"dest":parsedData.dest,"status":"Pending"});
+    if(parsedData.route){
+      storageData.historyData.push({"refNo":"8655677775","bkngDate":moment(parsedData.frmDate).format('DD-MM-YYYY'),"source":parsedData.from,"dest":parsedData.to,"status":"Booked"});  
+    }
+    else{
+      storageData.historyData.push({"refNo":"8655653335","bkngDate":moment(parsedData.frmDate).format('DD-MM-YYYY'),"source":parsedData.stp,"dest":parsedData.dest,"status":"Pending"});
+    }
     this.setState({bookingData:data,historyData:storageData.historyData});
     localStorage.setItem("loginData",JSON.stringify(storageData));
   }
@@ -73,8 +79,9 @@ class App extends Component {
           <Route exact path='/home' component={(props)=>(<div><Header {...props} state={this.state} Logout={this.handleLogout.bind(this)}/><Home {...props} Submit={this.handleBooking.bind(this)} Userdata={this.state.loginData}/></div>)} /> 
           <Route exact path='/register' component={(props) => (<div><Header {...props} state={this.state} Logout={this.handleLogout.bind(this)}/><Register {...props} Login={this.handleLoginFlag.bind(this)}/></div>)}/>
           <Route path='/acknowledgement' component={(props) => (<div><Header {...props} state={this.state} Logout={this.handleLogout.bind(this)}/><Acknowledgement {...props} Data={this.state.bookingData}/></div>)} />
+          <Route path='/bookingack' component={(props) => (<div><Header {...props} state={this.state} Logout={this.handleLogout.bind(this)}/><BookingAck {...props} Data={this.state.bookingData}/></div>)} />
           <Route path='/history' component={(props) => (<div><Header {...props} state={this.state} Logout={this.handleLogout.bind(this)}/><History {...props} Data={this.state.historyData}/></div>)} />
-          <Route path='/booking' component={(props) => (<div><Header {...props} state={this.state} Logout={this.handleLogout.bind(this)}/><BusBooking {...props} Data={this.state.historyData}/></div>)} />   
+          <Route path='/booking' component={(props) => (<div><Header {...props} state={this.state} Logout={this.handleLogout.bind(this)}/><BusBooking {...props} Submit={this.handleBooking.bind(this)} Data={this.state.historyData}/></div>)} />   
         </Switch>
       </Router>
      </div>
@@ -86,7 +93,7 @@ class Header extends React.Component{
     super(props);
     this.changeClass = this.changeClass.bind(this);
     this.state = {
-      homeFlag:"home"
+      homeFlag:"booking"
     }
   }
   componentDidMount(){
@@ -128,9 +135,9 @@ class Header extends React.Component{
           {this.props.state.loginFlag?<span className="log-out" onClick={this.handleNavigation.bind(this)}>Logout</span>:null}
           </div>
           {this.props.state.loginFlag?<div className="hdr-menu">
-            <span onClick={()=>this.changeClass("home")} className={(this.state.homeFlag==='home')?'hdr-border':''}>Home</span>
+          <span onClick={()=>this.changeClass("booking")} className={(this.state.homeFlag==='booking')?'hdr-border':''}>Bus booking</span>
+            <span onClick={()=>this.changeClass("home")} className={(this.state.homeFlag==='home')?'hdr-border':''}>Bus Hiring</span>
             <span onClick={()=>this.changeClass("history")} className={(this.state.homeFlag==='history')?'hdr-border':''}>History</span>
-            <span onClick={()=>this.changeClass("booking")} className={(this.state.homeFlag==='booking')?'hdr-border':''}>Booking</span>
           </div>:null}
         </div>
   )
