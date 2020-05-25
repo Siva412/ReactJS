@@ -29,6 +29,7 @@ class App extends Component {
     }
     else{
       this.setState({loginFlag:false});
+      alert("Test")
     }
   }
   handleBooking(data){
